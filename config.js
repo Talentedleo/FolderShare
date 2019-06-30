@@ -1,3 +1,3 @@
 module.exports = {
-    SHARE_PATH : '/Users/Leo/Desktop/share'
+    SHARE_PATH : '/Users/Leo/Desktop/share/'
 }

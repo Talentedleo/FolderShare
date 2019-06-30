@@ -15,4 +15,16 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/download-file/:filename', (req, res) => {
+    const FILE_NAME = req.params.filename
+    console.log(FILE_NAME)
+    fs.readFile(config.SHARE_PATH + FILE_NAME, (err, data) => {
+        if (err) {
+            res.send('404 error')
+        }
+        res.header('Content-Disposition', `attachment;filename=${FILE_NAME}`)
+        res.send(data)
+    })
+})
+
 module.exports = router
