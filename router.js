@@ -1,6 +1,6 @@
-let express = require('express')
-let router = express.Router()
-let fs = require('fs')
+const express = require('express')
+const router = express.Router()
+const fs = require('fs')
 const config = require('./config')
 
 router.get('/', (req, res) => {
@@ -16,14 +16,25 @@ router.get('/', (req, res) => {
 })
 
 router.get('/download-file/:filename', (req, res) => {
-    const FILE_NAME = req.params.filename
-    console.log(FILE_NAME)
-    fs.readFile(config.SHARE_PATH + FILE_NAME, (err, data) => {
+    console.log('Client: ' + req.ip)
+    let fileName = req.params.filename
+    console.log(fileName)
+    fs.readFile(config.SHARE_PATH + fileName, (err, data) => {
         if (err) {
             res.send('404 error')
         }
-        res.header('Content-Disposition', `attachment;filename=${FILE_NAME}`)
+        res.header('Content-Disposition', `attachment;filename=${fileName}`)
         res.send(data)
+    })
+})
+
+router.post('/upload-file', (req, res) => {
+    let uploadFile = req.files.myFile
+    fs.writeFile(config.SHARE_PATH + uploadFile.name, uploadFile.data, (err) => {
+        if (err) {
+            res.send('upload error')
+        }
+        res.redirect('/')
     })
 })
 

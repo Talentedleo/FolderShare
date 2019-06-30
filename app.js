@@ -1,14 +1,15 @@
-let express = require('express')
-let router = require('./router')
+const express = require('express')
+const fileUpload = require('express-fileupload')
+const router = require('./router')
+const bodyParser = require('body-parser')
 
-let bodyParser = require('body-parser')
-
-let app = express()
+const app = express()
 
 app.use('/node_modules/', express.static('./node_modules/'))
 app.use('/static/', express.static('./static/'))
 app.engine('html', require('express-art-template'))
 
+app.use(fileUpload())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
